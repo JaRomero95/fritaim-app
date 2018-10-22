@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { Switch, Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
+import ListBooksPage from 'components/books/list/ListBooksPage';
+import BookForm from 'components/books/form/BookForm';
 
 export class Main extends Component {
     onLogout() {
@@ -14,7 +17,19 @@ export class Main extends Component {
 
                 <div>
                     <button onClick={this.onLogout}>Salir</button>
+
+                    <ul>
+                        <li><Link to='/app'>List</Link></li>
+                        <li><Link to='/app/new'>Form</Link></li>
+                    </ul>
                 </div>
+
+                ul
+
+                <Switch>
+                    <Route path='/app/new' component={BookForm} />
+                    <Route exact component={ListBooksPage} />
+                </Switch>
             </div>
         );
     }
