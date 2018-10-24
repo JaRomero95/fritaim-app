@@ -9,7 +9,13 @@ const getBooks = () => ({
     type: types.GET_BOOKS,
 });
 
+const addBook = book => ({
+    type: types.ADD_BOOK,
+    book,
+});
+
 export {
     setBooks,
     getBooks,
+    addBook,
 };

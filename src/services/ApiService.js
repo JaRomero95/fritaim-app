@@ -17,6 +17,10 @@ const ApiService = {
 
         return books;
     },
+
+    addBook: async book => {
+        return await getBooksCollection().add(book);
+    }
 };
 
 export default ApiService;

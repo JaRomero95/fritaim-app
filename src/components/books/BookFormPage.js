@@ -1,27 +1,30 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import firebase from 'firebase';
-import 'firebase/firestore';
 import { connect } from 'react-redux';
 import {selectors as userSelectors} from 'store/user';
-import {database} from 'config/firebase';
+import {actions as booksActions} from 'store/books';
 
 export class BookForm extends Component {
-  static propTypes = {}
+  static propTypes = {
+    addBook: PropTypes.func.isRequired,
+  }
 
   state = {
-      title: [],
+      book: {
+        title: '',
+      },
   };
 
-  onChange = event => this.setState({ title: event.target.value });
+  onChange = event => this.setState({
+    book: {
+      ...this.state.book,
+      title: event.target.value
+    },
+  });
   
   onSubmit = async event => {
       event.preventDefault();
-      const { title } = this.state;
-      const { uid } = this.props;
-
-      const result = await database.collection('users').doc(uid).collection('books').add({ title });
-      console.log(result);
+      this.props.addBook(this.state.book);
   };
 
   render() {
@@ -38,8 +41,8 @@ export class BookForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-    uid: userSelectors.getUid(state),
-})
+const mapDispatchToProps = {
+  addBook: booksActions.addBook,
+};
 
-export default connect(mapStateToProps)(BookForm);
+export default connect(null, mapDispatchToProps)(BookForm);

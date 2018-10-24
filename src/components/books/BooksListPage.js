@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { actions, selectors } from 'store/books';
+import { selectors } from 'store/books';
 
 export class ListBooksPage extends Component {
   static propTypes = {}
-
-  componentDidMount() {
-    this.props.getBooks();
-  }
 
   render() {
     const { books } = this.props;
@@ -29,12 +25,8 @@ export class ListBooksPage extends Component {
   }
 }
 
-const mapDispatchToProps = {
-  getBooks: actions.getBooks,
-};
-
 const mapStateToProps = state => ({
   books: selectors.getBooks(state),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListBooksPage);
+export default connect(mapStateToProps, null)(ListBooksPage);

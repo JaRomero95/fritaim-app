@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-import ListBooksPage from 'components/books/list/ListBooksPage';
-import BookForm from 'components/books/form/BookForm';
+import BooksListPage from 'components/books/BooksListPage';
+import BookFormPage from 'components/books/BookFormPage';
+import { actions } from 'store/books';
 
 export class Main extends Component {
+    componentDidMount() {
+        this.props.getBooks();
+    }
+
     onLogout() {
         firebase.auth().signOut();
     }
@@ -27,8 +32,8 @@ export class Main extends Component {
                 ul
 
                 <Switch>
-                    <Route path='/app/new' component={BookForm} />
-                    <Route exact component={ListBooksPage} />
+                    <Route path='/app/new' component={BookFormPage} />
+                    <Route exact component={BooksListPage} />
                 </Switch>
             </div>
         );
@@ -39,4 +44,8 @@ const mapStateToProps = state => ({
     email: state.user.email,
 });
 
-export default connect(mapStateToProps, null)(Main);
+const mapDispatchToProps = {
+    getBooks: actions.getBooks,
+  };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
